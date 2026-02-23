@@ -1,4 +1,3 @@
-
 """
 Smart Elevator Predictive Maintenance Dashboard - PRODUCTION READY
 Fixed for Streamlit Cloud deployment with robust file handling
@@ -24,7 +23,7 @@ def configure_page():
     """Configure Streamlit page settings and custom styling"""
     st.set_page_config(
         page_title="Smart Elevator Predictive Maintenance",
-        page_icon="😑",
+        page_icon="🚀",
         layout="wide",
         initial_sidebar_state="expanded"
     )
@@ -212,13 +211,13 @@ def load_data_from_file(file_path):
     try:
         if os.path.exists(file_path):
             df = pd.read_csv(file_path, parse_dates=['datetime'], index_col='datetime')
-            st.success(f"\u2705 Successfully loaded data from: {os.path.basename(file_path)}")
+            st.success(f"Successfully loaded data from: {os.path.basename(file_path)}")
             return df
         else:
-            st.error(f"\u274c File not found: {file_path}")
+            st.error(f"File not found: {file_path}")
             return None
     except Exception as e:
-        st.error(f"\u274c Error loading file: {str(e)}")
+        st.error(f"Error loading file: {str(e)}")
         return None
 
 
@@ -251,7 +250,7 @@ def clean_dataframe(df):
         
         return df
     except Exception as e:
-        st.error(f"\u274c Error cleaning data: {str(e)}")
+        st.error(f"Error cleaning data: {str(e)}")
         return df
 
 
@@ -278,10 +277,10 @@ def load_and_clean_data(file_path=None, uploaded_file=None):
     if uploaded_file is not None:
         try:
             df = pd.read_csv(uploaded_file, parse_dates=['datetime'], index_col='datetime')
-            st.success(f"\u2705 Successfully loaded uploaded file")
+            st.success(f"Successfully loaded uploaded file")
             return clean_dataframe(df)
         except Exception as e:
-            st.error(f"\u274c Error loading uploaded file: {str(e)}")
+            st.error(f"Error loading uploaded file: {str(e)}")
     
     # Method 2: Load from provided file path
     if file_path and os.path.exists(file_path):
@@ -319,7 +318,7 @@ def generate_sample_data():
     Returns:
         DataFrame with sample elevator sensor data
     """
-    st.warning("\u26a0\ufe0f No dataset available. Using sample data for demonstration.")
+    st.warning("⚠️ No dataset available. Using sample data for demonstration.")
     
     np.random.seed(42)
     dates = pd.date_range(start='2024-01-01', periods=1000, freq='H')
@@ -432,7 +431,7 @@ def create_vibration_line_chart(df):
     # Update layout
     fig.update_layout(
         title={
-            'text': '\ud83d\udcc8 Vibration Over Time',
+            'text': '📈 Vibration Over Time',
             'font': {'size': 20, 'color': '#ffffff'},
             'x': 0.5,
             'xanchor': 'center'
@@ -469,7 +468,7 @@ def create_rev_vib_scatter(df):
         size='vibration',
         hover_data=['x1', 'x2', 'x3'],
         color_continuous_scale='Viridis',
-        title='\u2699\ufe0f Revolutions vs Vibration Analysis',
+        title='⚙️ Revolutions vs Vibration Analysis',
         labels={
             'revolutions': 'Revolutions (RPM)',
             'vibration': 'Vibration Level',
@@ -534,7 +533,7 @@ def create_humidity_histogram(df):
     
     fig.update_layout(
         title={
-            'text': '\ud83d\udca7 Humidity Distribution',
+            'text': '🌧️ Humidity Distribution',
             'font': {'size': 20, 'color': '#ffffff'},
             'x': 0.5,
             'xanchor': 'center'
@@ -582,7 +581,7 @@ def create_sensor_boxplot(df):
     
     fig.update_layout(
         title={
-            'text': '\ud83d\udcca Sensor Distribution Analysis (x1-x5)',
+            'text': '📊 Sensor Distribution Analysis (x1-x5)',
             'font': {'size': 20, 'color': '#ffffff'},
             'x': 0.5,
             'xanchor': 'center'
@@ -626,7 +625,7 @@ def create_correlation_heatmap(df):
     
     fig.update_layout(
         title={
-            'text': '\ud83d\udd0d Correlation Matrix',
+            'text': '🔍 Correlation Matrix',
             'font': {'size': 20, 'color': '#ffffff'},
             'x': 0.5,
             'xanchor': 'center'
@@ -669,7 +668,7 @@ def display_dashboard_metrics(df):
     
     with col1:
         st.metric(
-            label="\ud83c\udfaf Avg Vibration",
+            label="🎯 Avg Vibration",
             value=f"{avg_vibration:.2f}",
             delta=f"{vib_delta:+.1f}% vs median",
             help="Average vibration level across all readings"
@@ -677,7 +676,7 @@ def display_dashboard_metrics(df):
     
     with col2:
         st.metric(
-            label="\u26a1 Max Revolutions",
+            label="⚡ Max Revolutions",
             value=f"{max_revolutions:.0f}",
             delta="Peak performance",
             help="Maximum revolutions recorded"
@@ -685,7 +684,7 @@ def display_dashboard_metrics(df):
     
     with col3:
         st.metric(
-            label="\ud83d\udca7 Avg Humidity",
+            label="🌧️ Avg Humidity",
             value=f"{avg_humidity:.1f}%",
             delta=f"{hum_delta:+.1f}% vs target",
             help="Average humidity percentage"
@@ -693,7 +692,7 @@ def display_dashboard_metrics(df):
     
     with col4:
         st.metric(
-            label="\ud83d\udcca Total Records",
+            label="📊 Total Records",
             value=f"{total_records:,}",
             delta="Data points",
             help="Total number of sensor readings"
@@ -716,7 +715,7 @@ def generate_insights(df):
     corr_rev_vib = df['revolutions'].corr(df['vibration'])
     if corr_rev_vib > 0.5:
         insights.append({
-            'icon': '\u26a0\ufe0f',
+            'icon': '⚠️',
             'title': 'High Revolutions Increase Vibration',
             'text': f'Strong correlation detected (r={corr_rev_vib:.2f}). Higher revolutions significantly increase vibration levels. Consider reducing speed during high-traffic periods.',
             'type': 'warning' if corr_rev_vib > 0.7 else 'info'
@@ -727,7 +726,7 @@ def generate_insights(df):
     if abs(corr_hum_vib) > 0.3:
         correlation_type = "positive" if corr_hum_vib > 0 else "negative"
         insights.append({
-            'icon': '\ud83d\udca7',
+            'icon': '🌧️',
             'title': 'Humidity Impact Detected',
             'text': f'Humidity shows {correlation_type} correlation (r={corr_hum_vib:.2f}) with vibration. Maintain optimal humidity levels to reduce wear.',
             'type': 'info'
@@ -743,7 +742,7 @@ def generate_insights(df):
         
         if len(outliers) > len(df) * 0.05:
             insights.append({
-                'icon': '\ud83d\udd34',
+                'icon': '🔴',
                 'title': f'Sensor {sensor.upper()} Anomaly Detected',
                 'text': f'{len(outliers)} outliers detected ({len(outliers)/len(df)*100:.1f}% of data). Recommend sensor calibration check.',
                 'type': 'warning'
@@ -753,7 +752,7 @@ def generate_insights(df):
     high_vib = df[df['vibration'] > df['vibration'].quantile(0.9)]
     if len(high_vib) > 0:
         insights.append({
-            'icon': '\ud83d\ude80',
+            'icon': '🚀',
             'title': 'Predictive Maintenance Alert',
             'text': f'{len(high_vib)} high-vibration events detected. Schedule maintenance within the next 48 hours to prevent potential failure.',
             'type': 'warning' if len(high_vib) > 20 else 'info'
@@ -770,7 +769,7 @@ def display_insights(insights):
         insights: List of insight dictionaries
     """
     if insights:
-        st.markdown('<div class="section-header">\ud83e\udd16 AI-Generated Insights</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">🤖 AI-Generated Insights</div>', unsafe_allow_html=True)
         
         for insight in insights:
             if insight['type'] == 'warning':
@@ -788,7 +787,7 @@ def display_insights(insights):
                 </div>
                 """, unsafe_allow_html=True)
     else:
-        st.info("\u2705 No significant insights detected. System operating normally.")
+        st.info("✅ No significant insights detected. System operating normally.")
 
 
 # ==============================================================================
@@ -808,7 +807,7 @@ def configure_sidebar(df):
     with st.sidebar:
         st.markdown("""
         <div style='padding: 20px; text-align: center;'>
-            <h1 style='color: #667eea; margin-bottom: 10px;'>\u2699\ufe0f</h1>
+            <h1 style='color: #667eea; margin-bottom: 10px;'>⚙️</h1>
             <h2 style='color: #ffffff; margin: 0;'>Control Panel</h2>
         </div>
         """, unsafe_allow_html=True)
@@ -816,7 +815,7 @@ def configure_sidebar(df):
         st.markdown("---")
         
         # File upload section
-        st.markdown("### \ud83d\udcc1 Data Source")
+        st.markdown("### 📁 Data Source")
         uploaded_file = st.file_uploader(
             "Upload Elevator Dataset (CSV)",
             type=['csv'],
@@ -826,7 +825,7 @@ def configure_sidebar(df):
         st.markdown("---")
         
         # Humidity filter
-        st.markdown("### \ud83d\udca7 Humidity Filter")
+        st.markdown("### 🌧️ Humidity Filter")
         humidity_min = float(df['humidity'].min())
         humidity_max = float(df['humidity'].max())
         humidity_range = st.slider(
@@ -838,7 +837,7 @@ def configure_sidebar(df):
         )
         
         # Revolutions filter
-        st.markdown("### \u26a1 Revolutions Filter")
+        st.markdown("### ⚡ Revolutions Filter")
         rev_min = float(df['revolutions'].min())
         rev_max = float(df['revolutions'].max())
         revolutions_range = st.slider(
@@ -850,7 +849,7 @@ def configure_sidebar(df):
         )
         
         # Sensor selection
-        st.markdown("### \ud83d\udcca Sensor Selection")
+        st.markdown("### 📊 Sensor Selection")
         sensor_cols = ['x1', 'x2', 'x3', 'x4', 'x5']
         selected_sensors = st.multiselect(
             "Select Sensors to Display",
@@ -861,7 +860,7 @@ def configure_sidebar(df):
         st.markdown("---")
         
         # Advanced options
-        st.markdown("### \ud83d\udd27 Advanced Options")
+        st.markdown("### 🔧 Advanced Options")
         
         # Show correlation heatmap
         show_heatmap = st.checkbox("Show Correlation Heatmap", value=True)
@@ -872,7 +871,7 @@ def configure_sidebar(df):
         st.markdown("---")
         
         # System information
-        st.markdown("### \u2139\ufe0f System Info")
+        st.markdown("### ℹ️ System Info")
         st.info(f"""
         **Python Version:** {sys.version.split()[0]}
         
@@ -902,14 +901,14 @@ def main():
     configure_page()
     
     # Animated loading spinner
-    with st.spinner(' Loading Dashboard...'):
+    with st.spinner('🚀 Loading Dashboard...'):
         # Load data with multiple fallback methods
         df = load_and_clean_data()
         
         # If no data available, offer to use sample data
         if df is None:
             st.error("""
-            \u274c **Dataset Not Found**
+            ❌ **Dataset Not Found**
             
             The elevator sensor dataset could not be located. Please choose an option:
             """)
@@ -917,12 +916,12 @@ def main():
             col1, col2 = st.columns(2)
             
             with col1:
-                if st.button(" Use Sample Data", use_container_width=True):
+                if st.button("📊 Use Sample Data", use_container_width=True):
                     df = generate_sample_data()
                     st.rerun()
             
             with col2:
-                if st.button("Upload Your Own", use_container_width=True):
+                if st.button("📁 Upload Your Own", use_container_width=True):
                     st.info("Please use the file uploader in the sidebar to upload your dataset.")
             
             st.stop()
@@ -934,7 +933,7 @@ def main():
     if filters['uploaded_file'] is not None:
         df = load_and_clean_data(uploaded_file=filters['uploaded_file'])
         if df is not None:
-            st.success(" Dataset reloaded from uploaded file!")
+            st.success("✅ Dataset reloaded from uploaded file!")
             st.rerun()
     
     # Apply filters
@@ -948,7 +947,7 @@ def main():
     # Custom header
     st.markdown("""
     <div class="header-container">
-        <h1 style='color: white; margin: 0; font-size: 2.5rem;'>\ud83c\udfe2 Smart Elevator Movement Visualization</h1>
+        <h1 style='color: white; margin: 0; font-size: 2.5rem;'>🏢 Smart Elevator Movement Visualization</h1>
         <p style='color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 1.2rem;'>
             AI-Driven Predictive Maintenance Dashboard
         </p>
@@ -965,7 +964,7 @@ def main():
     if filtered_df['vibration'].max() > 80:
         st.markdown(f"""
         <div class="warning-alert">
-            <strong> CRITICAL ALERT: High Vibration Detected</strong><br>
+            <strong>⚠️ CRITICAL ALERT: High Vibration Detected</strong><br>
             Maximum vibration level of {filtered_df['vibration'].max():.2f} exceeds safety threshold. Immediate inspection required!
         </div>
         """, unsafe_allow_html=True)
@@ -975,7 +974,7 @@ def main():
     display_insights(insights)
     
     # Main visualizations in tabs
-    tab1, tab2, tab3, tab4, tab5 = st.tabs([" Vibration", " Revolutions", " Humidity", " Sensors", " Correlation"])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(["📈 Vibration", "⚙️ Revolutions", "🌧️ Humidity", "📊 Sensors", "🔍 Correlation"])
     
     with tab1:
         st.markdown('<div class="section-header">Vibration Analysis</div>', unsafe_allow_html=True)
@@ -998,10 +997,10 @@ def main():
             st.markdown('<div class="section-header">Correlation Analysis</div>', unsafe_allow_html=True)
             st.plotly_chart(create_correlation_heatmap(filtered_df), use_container_width=True)
         else:
-            st.info("\ud83d\udd0d Enable 'Show Correlation Heatmap' in sidebar to view correlations.")
+            st.info("🔍 Enable 'Show Correlation Heatmap' in sidebar to view correlations.")
     
     # Raw data expander
-    with st.expander("\ud83d\udccb View Raw Data"):
+    with st.expander("📋 View Raw Data"):
         if filters['show_raw_data']:
             st.dataframe(
                 filtered_df,
@@ -1009,7 +1008,7 @@ def main():
                 height=300
             )
             st.download_button(
-                label="\ud83d\udce5 Download Filtered Data (CSV)",
+                label="📥 Download Filtered Data (CSV)",
                 data=filtered_df.to_csv(index=True),
                 file_name="elevator_sensor_data_filtered.csv",
                 mime="text/csv"
@@ -1018,7 +1017,7 @@ def main():
             st.info("Enable 'Show Raw Data' in sidebar to view the dataset.")
     
     # Advanced analytics expander
-    with st.expander("\ud83d\udd2c Advanced Analytics"):
+    with st.expander("🔬 Advanced Analytics"):
         col1, col2 = st.columns(2)
         
         with col1:
@@ -1035,7 +1034,7 @@ def main():
     # Footer
     st.markdown("""
     <div style='text-align: center; padding: 20px; color: rgba(255,255,255,0.5);'>
-        <p>\ud83d\ude80 Smart Elevator Predictive Maintenance Dashboard v2.0 - Production Ready</p>
+        <p>🚀 Smart Elevator Predictive Maintenance Dashboard v2.0 - Production Ready</p>
         <p style='font-size: 0.9rem;'>AI-Powered Analytics for Smart Buildings | Fixed for Streamlit Cloud</p>
     </div>
     """, unsafe_allow_html=True)
