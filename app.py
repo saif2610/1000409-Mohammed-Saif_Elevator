@@ -164,7 +164,7 @@ def configure_page():
 # ==============================================================================
 
 @st.cache_data
-def load_and_clean_data(file_path='Elevator predictive-maintenance-dataset.csv'):
+def load_and_clean_data(file_path=r"Elevator predictive-maintenance-dataset.csv"):
     """
     Load and clean the elevator sensor dataset
     
