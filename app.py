@@ -24,7 +24,7 @@ def configure_page():
     """Configure Streamlit page settings and custom styling"""
     st.set_page_config(
         page_title="Smart Elevator Predictive Maintenance",
-        page_icon="\ud83d\ude80",
+        page_icon="😑",
         layout="wide",
         initial_sidebar_state="expanded"
     )
