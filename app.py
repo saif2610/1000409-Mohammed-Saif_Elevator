@@ -902,7 +902,7 @@ def main():
     configure_page()
     
     # Animated loading spinner
-    with st.spinner('\ud83d\ude80 Loading Dashboard...'):
+    with st.spinner(' Loading Dashboard...'):
         # Load data with multiple fallback methods
         df = load_and_clean_data()
         
@@ -917,12 +917,12 @@ def main():
             col1, col2 = st.columns(2)
             
             with col1:
-                if st.button("\ud83d\udcca Use Sample Data", use_container_width=True):
+                if st.button(" Use Sample Data", use_container_width=True):
                     df = generate_sample_data()
                     st.rerun()
             
             with col2:
-                if st.button("\ud83d\udcc1 Upload Your Own", use_container_width=True):
+                if st.button("Upload Your Own", use_container_width=True):
                     st.info("Please use the file uploader in the sidebar to upload your dataset.")
             
             st.stop()
@@ -934,7 +934,7 @@ def main():
     if filters['uploaded_file'] is not None:
         df = load_and_clean_data(uploaded_file=filters['uploaded_file'])
         if df is not None:
-            st.success("\u2705 Dataset reloaded from uploaded file!")
+            st.success(" Dataset reloaded from uploaded file!")
             st.rerun()
     
     # Apply filters
@@ -965,7 +965,7 @@ def main():
     if filtered_df['vibration'].max() > 80:
         st.markdown(f"""
         <div class="warning-alert">
-            <strong>\u26a0\ufe0f CRITICAL ALERT: High Vibration Detected</strong><br>
+            <strong> CRITICAL ALERT: High Vibration Detected</strong><br>
             Maximum vibration level of {filtered_df['vibration'].max():.2f} exceeds safety threshold. Immediate inspection required!
         </div>
         """, unsafe_allow_html=True)
@@ -975,7 +975,7 @@ def main():
     display_insights(insights)
     
     # Main visualizations in tabs
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(["\ud83d\udcc8 Vibration", "\u2699\ufe0f Revolutions", "\ud83d\udca7 Humidity", "\ud83d\udcca Sensors", "\ud83d\udd0d Correlation"])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([" Vibration", " Revolutions", " Humidity", " Sensors", " Correlation"])
     
     with tab1:
         st.markdown('<div class="section-header">Vibration Analysis</div>', unsafe_allow_html=True)
