@@ -120,27 +120,20 @@ def configure_page():
 # ==============================================================================
 
 @st.cache_data
-def load_data():
+def load_data(uploaded_file=None):
     """
-    Load elevator sensor data from CSV file.
+    Load elevator sensor data from uploaded file only.
     Simplified version without datetime parsing.
     """
-    try:
-        # Try loading from current directory
-        df = pd.read_csv('Elevator predictive-maintenance-dataset.csv')
-        st.success("✅ Dataset loaded successfully!")
-        return df
-    except FileNotFoundError:
-        # Try loading from data directory
+    if uploaded_file is not None:
         try:
-            df = pd.read_csv('data/Elevator predictive-maintenance-dataset.csv')
+            df = pd.read_csv(uploaded_file)
             st.success("✅ Dataset loaded successfully!")
             return df
-        except FileNotFoundError:
-            st.error("❌ Dataset file not found!")
+        except Exception as e:
+            st.error(f"❌ Error loading uploaded file: {str(e)}")
             return None
-    except Exception as e:
-        st.error(f"❌ Error loading dataset: {str(e)}")
+    else:
         return None
 
 
@@ -264,7 +257,6 @@ def create_rev_vib_scatter(df):
         x='revolutions',
         y='vibration',
         color='humidity',
-        size='vibration',
         hover_data=['x1', 'x2', 'x3'],
         color_continuous_scale='Viridis',
         title='⚙️ Revolutions vs Vibration Analysis',
@@ -277,6 +269,7 @@ def create_rev_vib_scatter(df):
     
     fig.update_traces(
         marker=dict(
+            size=8,
             line=dict(color='white', width=1),
             opacity=0.7
         )
@@ -537,14 +530,20 @@ def display_insights(insights):
         st.info("✅ No significant insights detected. System operating normally.")
 
 
+
+
+
 # ==============================================================================
-# SIDEBAR CONFIGURATION
+# MAIN APPLICATION
 # ==============================================================================
 
-def configure_sidebar(df):
-    """
-    Configure sidebar with interactive filters and controls
-    """
+def main():
+    """Main application function"""
+    
+    # Configure page
+    configure_page()
+    
+    # Configure sidebar first to get uploaded file
     with st.sidebar:
         st.markdown("""
         <div style='padding: 20px; text-align: center;'>
@@ -562,7 +561,22 @@ def configure_sidebar(df):
             type=['csv'],
             help="Upload your own elevator sensor data"
         )
+    
+    # Load data from uploaded file
+    with st.spinner('🚀 Loading Dashboard...'):
+        df = load_data(uploaded_file)
         
+        # If no data available, show error
+        if df is None:
+            st.error("""
+            ❌ **No Dataset Uploaded**
+            
+            Please upload your elevator sensor dataset using the file uploader in the sidebar.
+            """)
+            st.stop()
+    
+    # Configure sidebar with filters
+    with st.sidebar:
         st.markdown("---")
         
         # Humidity filter
@@ -617,62 +631,13 @@ def configure_sidebar(df):
         **Working Directory:** {os.getcwd()[:50]}...
         """)
         
-        return {
-            'uploaded_file': uploaded_file,
+        filters = {
             'humidity_range': humidity_range,
             'revolutions_range': revolutions_range,
             'selected_sensors': selected_sensors,
             'show_heatmap': show_heatmap,
             'show_raw_data': show_raw_data
         }
-
-
-# ==============================================================================
-# MAIN APPLICATION
-# ==============================================================================
-
-def main():
-    """Main application function"""
-    
-    # Configure page
-    configure_page()
-    
-    # Load data
-    with st.spinner('🚀 Loading Dashboard...'):
-        df = load_data()
-        
-        # If no data available, offer to use sample data
-        if df is None:
-            st.error("""
-            ❌ **Dataset Not Found**
-            
-            The elevator sensor dataset could not be located. Please choose an option:
-            """)
-            
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                if st.button("📊 Use Sample Data", use_container_width=True):
-                    df = generate_sample_data()
-                    st.rerun()
-            
-            with col2:
-                if st.button("📁 Upload Your Own", use_container_width=True):
-                    st.info("Please use the file uploader in the sidebar to upload your dataset.")
-            
-            st.stop()
-    
-    # Configure sidebar
-    filters = configure_sidebar(df)
-    
-    # Reload data if file was uploaded
-    if filters['uploaded_file'] is not None:
-        try:
-            df = pd.read_csv(filters['uploaded_file'])
-            st.success("✅ Dataset reloaded from uploaded file!")
-            st.rerun()
-        except Exception as e:
-            st.error(f"❌ Error loading uploaded file: {str(e)}")
     
     # Apply filters
     filtered_df = apply_filters(
