@@ -5,6 +5,8 @@
 
 A professional, highly interactive Streamlit web application for AI-driven predictive maintenance of smart building elevators. This dashboard analyzes sensor data to detect anomalies, predict maintenance needs, and provide actionable insights.
 
+screen shots link:https://www.canva.com/design/DAHBvAfPAsU/vC2KfeNVr3K0S4Qks_ELSA/view?utm_content=DAHBvAfPAsU&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h7709f8df95 
+
 ✨ Features
 
 🎨 Professional UI/UX
