@@ -20,6 +20,7 @@ screen shots link:https://www.canva.com/design/DAHBvAfPAsU/vC2KfeNVr3K0S4Qks_ELS
 - Custom CSS styling throughout
 
 - Responsive layout for all screen sizes
+APP LINK:https://1000409-mohammed-saifelevator-bdhxoggshduhz9mep8jmpc.streamlit.app/ 
 
 📊 Interactive Visualizations
 
@@ -365,7 +366,15 @@ This project is provided as-is for educational and commercial use.
 
 -  API endpoints for external access
 
-🏆 Credits
+🏆 Credits:
+
+Class: Artificial Intelligence: Mathematics in AI-I – Year 1
+
+Mentor: Syed Ali Beema.S
+
+School: Jain Vidyalaya IB world school, Madurai
+
+
 
 Built with:
 
